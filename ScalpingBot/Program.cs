@@ -14,7 +14,7 @@ namespace ScalpingBot
     {
         static async Task Main(string[] args)
         {
-            const string NEWEGG_RTX3000_RX6800_URL = "https://www.newegg.com/p/pl?N=100007709%20601359422%20601357250%20601357247&PageSize=96&Order=0";
+            const string NEWEGG_RTX3000_RX6800_URL = @"https://www.newegg.com/p/pl?N=100007709%20601359422%20601357250%20601357247&PageSize=96&Order=0";
 
             while (true)
             {
