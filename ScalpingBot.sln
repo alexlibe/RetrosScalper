@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScalpingBot", "ScalpingBot\ScalpingBot.csproj", "{525054D7-0BB6-4817-B334-885DF96F3C92}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScalpingBot.Tests", "ScalpingBot.Tests\ScalpingBot.Tests.csproj", "{652EDF78-09F4-4578-9090-8668B98AAB44}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{525054D7-0BB6-4817-B334-885DF96F3C92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{525054D7-0BB6-4817-B334-885DF96F3C92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{525054D7-0BB6-4817-B334-885DF96F3C92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{525054D7-0BB6-4817-B334-885DF96F3C92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{652EDF78-09F4-4578-9090-8668B98AAB44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{652EDF78-09F4-4578-9090-8668B98AAB44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{652EDF78-09F4-4578-9090-8668B98AAB44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{652EDF78-09F4-4578-9090-8668B98AAB44}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E4FD587D-BB7E-44ED-9D45-797C3ABAECD0}
+	EndGlobalSection
+EndGlobal
