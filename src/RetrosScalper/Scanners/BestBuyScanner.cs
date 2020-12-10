@@ -8,21 +8,21 @@ using RetrosScalper.Data;
 
 using AngleSharp;
 
-namespace RetrosScalper.Utilities
+namespace RetrosScalper.Scanners
 {
-    class NeweggScanner
+    class BestBuyScanner : IScanner<IItem>
     {
-        public static async Task<List<NeweggItem>> Scan(string html)
+        public async Task<List<IItem>> Scan(string html)
         {
-            var nItems = new List<NeweggItem>();
+            var nItems = new List<IItem>();
             var config = Configuration.Default;
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(req => req.Content(html));
 
-            var items = document.QuerySelectorAll("div.item-container"); // Gets the item list
+            var items = document.QuerySelectorAll("li.sku-item"); // Gets the item list
             foreach (var item in items)
             {
-                NeweggItem nItem = new NeweggItem();
+                IItem nItem = new BestBuyItem();
 
                 var priceElementTree = item.QuerySelector("li.price-current"); // Gets the item price
                 if (priceElementTree.TextContent != string.Empty)

@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RetrosScalper", "RetrosScalper\RetrosScalper.csproj", "{74AAA921-92F7-47CD-9B42-C7CC5E593B46}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RetrosScalper", "src\RetrosScalper\RetrosScalper.csproj", "{7D47A8A6-9F1B-4E98-A055-B41FD951B150}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RetrosScalper.VS2017", "RetrosScalper.VS2017\RetrosScalper.VS2017.csproj", "{33621F45-4190-4429-831D-DBEBFB7A21F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RetrosScalper.VS2017", "src\RetrosScalper.VS2017\RetrosScalper.VS2017.csproj", "{085E2CB1-6607-478D-9010-67AAB0F4CF1B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RetrosScalper.Tests", "src\RetrosScalper.Tests\RetrosScalper.Tests.csproj", "{EACD198F-9F28-4FBE-8CB8-EAE4FD580959}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +15,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{74AAA921-92F7-47CD-9B42-C7CC5E593B46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{74AAA921-92F7-47CD-9B42-C7CC5E593B46}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{74AAA921-92F7-47CD-9B42-C7CC5E593B46}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{74AAA921-92F7-47CD-9B42-C7CC5E593B46}.Release|Any CPU.Build.0 = Release|Any CPU
-		{33621F45-4190-4429-831D-DBEBFB7A21F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{33621F45-4190-4429-831D-DBEBFB7A21F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{33621F45-4190-4429-831D-DBEBFB7A21F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{33621F45-4190-4429-831D-DBEBFB7A21F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D47A8A6-9F1B-4E98-A055-B41FD951B150}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D47A8A6-9F1B-4E98-A055-B41FD951B150}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D47A8A6-9F1B-4E98-A055-B41FD951B150}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D47A8A6-9F1B-4E98-A055-B41FD951B150}.Release|Any CPU.Build.0 = Release|Any CPU
+		{085E2CB1-6607-478D-9010-67AAB0F4CF1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{085E2CB1-6607-478D-9010-67AAB0F4CF1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{085E2CB1-6607-478D-9010-67AAB0F4CF1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{085E2CB1-6607-478D-9010-67AAB0F4CF1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EACD198F-9F28-4FBE-8CB8-EAE4FD580959}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EACD198F-9F28-4FBE-8CB8-EAE4FD580959}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EACD198F-9F28-4FBE-8CB8-EAE4FD580959}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EACD198F-9F28-4FBE-8CB8-EAE4FD580959}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
