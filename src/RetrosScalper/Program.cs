@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading;
+using System.IO;
 
 using RetrosScalper.Utilities;
 using RetrosScalper.Scanners;
@@ -14,33 +15,62 @@ namespace RetrosScalper
     {
         static async Task Main(string[] args)
         {
-            Uri NEWEGG_RTX3000_RX6800_URL = new Uri(@"https://www.newegg.com/p/pl?N=100007709%20601359422%20601357250%20601357247&PageSize=96&Order=0");
-            Uri BESTBUY_URL = new Uri(@"https://www.bestbuy.com/site/searchpage.jsp?st=graphics+card&_dyncharset=UTF-8&_dynSessConf=&id=pcat17071&type=page&sc=Global&cp=1&nrp=&sp=&qp=&list=n&af=true&iht=y&usc=All+Categories&ks=960&keys=keys");
-            Uri AMD_URL = new Uri(@"https://www.amd.com/en/direct-buy/us");
-            Uri Test_url = new Uri(@"https://www.evga.com/");
-            var nScan = new NeweggScanner();
+            var urlsToScan = new List<Uri>();
+            const string URL_FILE = "Urls.txt";
 
+            // Creates the url file if it doesn't exist
+            if (!File.Exists(URL_FILE))
+            {
+                File.Create(URL_FILE).Dispose();
+                Console.WriteLine("Urls.txt has been created. Input all your urls to scan there line by line.");
+
+                return;
+            }
+
+            // Reads through each line in the url file and scans them later
+            using (var sr = new StreamReader(URL_FILE))
+            {
+                string urlLine;
+                while((urlLine = sr.ReadLine()) != null)
+                {
+                    urlsToScan.Add(new Uri(urlLine));
+                    Console.WriteLine(urlLine);
+                }
+            }
+
+            var nScan = new NeweggScanner();
             while (true)
             {
                 Console.WriteLine("Getting page data...");
+                bool cardInStock = false;
 
-                var htmlResponse = await HttpHelper.GetContentResponse(BESTBUY_URL);
-                var items = await nScan.Scan(htmlResponse);
-                foreach (var i in items)
+                foreach(var url in urlsToScan)
                 {
-                    if (i.InStock)
+                    var htmlResponse = await HttpHelper.GetContentResponse(url);
+                    var items = await nScan.Scan(htmlResponse);
+                    foreach (var i in items)
                     {
-                        Console.WriteLine("Name: " + i.Name);
-                        Console.WriteLine("Is in stock: " + i.InStock.ToString());
-                        Console.WriteLine("URL: " + i.URL);
-                        Console.WriteLine("Price: " + (i.Price == null ? "N/A" : "$" + i.Price.ToString()) + "\n");
+                        if (i.InStock)
+                        {
+                            Console.WriteLine("Name: " + i.Name);
+                            Console.WriteLine("Is in stock: " + i.InStock.ToString());
+                            Console.WriteLine("URL: " + i.URL);
+                            Console.WriteLine("Price: " + (i.Price == null ? "N/A" : "$" + i.Price.ToString()) + "\n");
 
-                        Console.Beep();
+                            cardInStock = true;
+                        }
                     }
+
+                    Thread.Sleep(500);
+                }
+
+                if (cardInStock)
+                {
+                    Console.Beep();
                 }
 
                 Console.WriteLine("Finished getting page data...\n");
-                Thread.Sleep(5000);
+                Thread.Sleep(4000);
             }
         }
     }
