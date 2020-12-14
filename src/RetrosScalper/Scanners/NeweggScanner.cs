@@ -10,7 +10,7 @@ using AngleSharp;
 
 namespace RetrosScalper.Scanners
 {
-    class NeweggScanner : IScanner<IItem>
+    class NeweggScanner : IScanner
     {
         public async Task<List<IItem>> Scan(string html)
         {

@@ -39,38 +39,75 @@ namespace RetrosScalper
             }
 
             var nScan = new NeweggScanner();
+            var bScan = new BestBuyScanner();
             while (true)
             {
                 Console.WriteLine("Getting page data...");
-                bool cardInStock = false;
 
                 foreach(var url in urlsToScan)
                 {
-                    var htmlResponse = await HttpHelper.GetContentResponse(url);
-                    var items = await nScan.Scan(htmlResponse);
-                    foreach (var i in items)
-                    {
-                        if (i.InStock)
-                        {
-                            Console.WriteLine("Name: " + i.Name);
-                            Console.WriteLine("Is in stock: " + i.InStock.ToString());
-                            Console.WriteLine("URL: " + i.URL);
-                            Console.WriteLine("Price: " + (i.Price == null ? "N/A" : "$" + i.Price.ToString()) + "\n");
+                    bool cardInStock = false;
 
-                            cardInStock = true;
-                        }
+                    switch (url.Host)
+                    {
+                        case "www.bestbuy.com":
+                            var htmlResponse = await HttpHelper.GetBestBuyResponse(url);
+                            var html = await htmlResponse.Content.ReadAsStringAsync();
+                            var items = await bScan.Scan(html);
+                            foreach (var i in items)
+                            {
+                                if (i.InStock)
+                                {
+                                    Console.WriteLine("Name: " + i.Name);
+                                    Console.WriteLine("Is in stock: " + i.InStock.ToString());
+                                    Console.WriteLine("URL: " + i.URL);
+                                    Console.WriteLine("Price: " + (i.Price == null ? "N/A" : "$" + i.Price.ToString()) + "\n");
+
+                                    cardInStock = true;
+                                }
+                            }
+
+                            if (cardInStock)
+                            {
+                                Console.Beep();
+                            }
+
+                            htmlResponse.Dispose();
+                            break;
+                        case "www.newegg.com":
+                            var bhtmlResponse = await HttpHelper.GetNeweggResponse(url);
+                            var bhtml = await bhtmlResponse.Content.ReadAsStringAsync();
+                            var bitems = await nScan.Scan(bhtml);
+                            foreach (var i in bitems)
+                            {
+                                if (i.InStock)
+                                {
+                                    Console.WriteLine("Name: " + i.Name);
+                                    Console.WriteLine("Is in stock: " + i.InStock.ToString());
+                                    Console.WriteLine("URL: " + i.URL);
+                                    Console.WriteLine("Price: " + (i.Price == null ? "N/A" : "$" + i.Price.ToString()) + "\n");
+
+                                    cardInStock = true;
+                                }
+                            }
+
+                            if (cardInStock)
+                            {
+                                Console.Beep();
+                            }
+
+                            bhtmlResponse.Dispose();
+                            break;
+                        default:
+                            Console.WriteLine("Invalid URL");
+                            return;
                     }
 
-                    Thread.Sleep(500);
-                }
-
-                if (cardInStock)
-                {
-                    Console.Beep();
+                    Thread.Sleep(250);
                 }
 
                 Console.WriteLine("Finished getting page data...\n");
-                Thread.Sleep(4000);
+                Thread.Sleep(2000);
             }
         }
     }

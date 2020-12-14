@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 using RetrosScalper.Data;
 
 using AngleSharp;
+using AngleSharp.Html.Dom;
 
 namespace RetrosScalper.Scanners
 {
-    class BestBuyScanner : IScanner<IItem>
+    class BestBuyScanner : IScanner
     {
         public async Task<List<IItem>> Scan(string html)
         {
@@ -22,31 +23,32 @@ namespace RetrosScalper.Scanners
             var items = document.QuerySelectorAll("li.sku-item"); // Gets the item list
             foreach (var item in items)
             {
-                IItem nItem = new BestBuyItem();
+                IItem bItem = new BestBuyItem();
+                
+                // Gets the link and name of the GPU thats been scanned
+                var gpuLinkElement = (IHtmlAnchorElement)item.QuerySelector("h4.sku-header").QuerySelector("a");
+                string gpuFullLink = "www.bestbuy.com" + gpuLinkElement.PathName;
 
-                var priceElementTree = item.QuerySelector("li.price-current"); // Gets the item price
-                if (priceElementTree.TextContent != string.Empty)
+                // Gets the price of the GPU by searching for the element with a dollar sign and removing that dollar sign to parse it
+                var gpuPriceElement = item.QuerySelectorAll("span[aria-hidden='true']").Where(m => m.TextContent.Contains("$")).Single();
+                var gpuPrice = float.Parse(gpuPriceElement.TextContent.Substring(1, gpuPriceElement.TextContent.Length - 1));
+
+                // Checks if the GPU is in stock
+                var gpuInStockElement = item.QuerySelector("div.fulfillment-add-to-cart-button").QuerySelector("button");
+                if (gpuInStockElement.TextContent == "Add to Cart")
                 {
-                    string dollars = priceElementTree.QuerySelector("strong").TextContent; // Gets the dollar price
-                    string cents = priceElementTree.QuerySelector("sup").TextContent; // Gets the cent price
-
-                    nItem.Price = float.Parse(dollars + cents);
-                }
-
-                string outOfStockText = item.QuerySelector("p.item-promo")?.TextContent; // Checks if the "Out of stock" message is showing
-                if (outOfStockText == null)
-                {
-                    nItem.InStock = true;
+                    bItem.InStock = true;
                 }
                 else
                 {
-                    nItem.InStock = false;
+                    bItem.InStock = false;
                 }
 
-                var linkElement = (AngleSharp.Html.Dom.IHtmlAnchorElement)item.QuerySelector("a.item-title");
-                nItem.Name = linkElement.TextContent; // The name of the item
-                nItem.URL = linkElement.Href;
-                nItems.Add(nItem);
+                bItem.Name = gpuLinkElement.TextContent;
+                bItem.Price = gpuPrice;
+                bItem.URL = gpuFullLink;
+
+                nItems.Add(bItem);
             }
 
             return nItems;

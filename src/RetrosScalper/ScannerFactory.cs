@@ -9,7 +9,7 @@ namespace RetrosScalper
 {
     public static class ScannerFactory
     {
-        public static IScanner<IItem> CreateScanner()
+        public static IScanner CreateScanner()
         {
             return new NeweggScanner();
         }
