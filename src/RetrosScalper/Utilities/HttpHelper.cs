@@ -8,34 +8,34 @@ namespace RetrosScalper.Utilities
 {
     static class HttpHelper
     {
-        public static HttpClient Client { get; }
+        private static HttpClient client;
 
         static HttpHelper()
         {
-            Client = new HttpClient(new HttpClientHandler
+            client = new HttpClient(new HttpClientHandler
             {
                 AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
             });
 
-            Client.Timeout = TimeSpan.FromSeconds(15);
-            Client.DefaultRequestHeaders.Add("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
-            Client.DefaultRequestHeaders.Add("accept-encoding", "gzip, deflate, br");
-            Client.DefaultRequestHeaders.Add("accept-language", "en-US,en;q=0.5");
-            Client.DefaultRequestHeaders.Add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:83.0) Gecko/20100101 Firefox/83.0");
-            Client.DefaultRequestHeaders.Add("connection", "keep-alive");
-            Client.DefaultRequestHeaders.Add("te", "Trailers");
-            Client.DefaultRequestHeaders.CacheControl = new CacheControlHeaderValue();
-            Client.DefaultRequestHeaders.CacheControl.MaxAge = TimeSpan.Zero;
+            client.Timeout = TimeSpan.FromSeconds(15);
+            client.DefaultRequestHeaders.Add("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
+            client.DefaultRequestHeaders.Add("accept-encoding", "gzip, deflate, br");
+            client.DefaultRequestHeaders.Add("accept-language", "en-US,en;q=0.5");
+            client.DefaultRequestHeaders.Add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:83.0) Gecko/20100101 Firefox/83.0");
+            client.DefaultRequestHeaders.Add("connection", "keep-alive");
+            client.DefaultRequestHeaders.Add("te", "Trailers");
+            client.DefaultRequestHeaders.CacheControl = new CacheControlHeaderValue();
+            client.DefaultRequestHeaders.CacheControl.MaxAge = TimeSpan.Zero;
         }
 
         public static async Task<HttpResponseMessage> GetResponse(Uri url)
         {
             HttpResponseMessage response = null;
-            Client.DefaultRequestHeaders.Host = url.Host;
+            client.DefaultRequestHeaders.Host = url.Host;
 
             try
             {
-                response = await Client.GetAsync(url);
+                response = await client.GetAsync("https://www.bestbuy.com/fgf");
                 response.EnsureSuccessStatusCode();
 
                 return response;

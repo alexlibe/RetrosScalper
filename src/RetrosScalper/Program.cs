@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace RetrosScalper
 {
@@ -8,6 +9,8 @@ namespace RetrosScalper
         {
             StockBot sb = new StockBot();
             await sb.Start();
+
+            Console.ReadKey();
         }
     }
 }

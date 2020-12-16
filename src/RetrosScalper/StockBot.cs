@@ -9,8 +9,12 @@ using System.IO;
 using RetrosScalper.Utilities;
 using RetrosScalper.Data;
 
+// TODO: Setup events for the *UI* class and exceptions
+
 namespace RetrosScalper
 {
+    public delegate void ScanStarted();
+
     class StockBot
     {
         private List<Uri> urlsToScan;
@@ -28,14 +32,14 @@ namespace RetrosScalper
                 foreach (var url in urlsToScan)
                 {
                     bool cardInStock = false;
-                    List<IItem> items;
+                    List<IItem> items = new List<IItem>();
 
                     switch (url.Host)
                     {
                         case "www.bestbuy.com":
                             using (var htmlResponse = await HttpHelper.GetResponse(url))
                             {
-                                var html = await htmlResponse.Content.ReadAsStringAsync();
+                                string html = await htmlResponse.Content.ReadAsStringAsync();
                                 items = await StockScanner.ScanBestBuy(html);
                             }
 
