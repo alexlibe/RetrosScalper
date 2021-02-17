@@ -2,9 +2,9 @@
 {
     public interface IItem
     {
-        public string Name { get; set; }
-        public float? Price { get; set; }
-        public bool InStock { get; set; }
-        public string URL { get; set; }
+        string Name { get; set; }
+        float? Price { get; set; }
+        bool InStock { get; set; }
+        string URL { get; set; }
     }
 }

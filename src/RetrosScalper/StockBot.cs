@@ -13,6 +13,19 @@ namespace RetrosScalper
 {
     class StockBot
     {
+        public enum Error
+        {
+            URL_NOT_SUPPORTED = 1,
+            FILE_NOT_CREATED = 2
+        }
+
+        public delegate void ScanEvent();
+        public delegate void BotErrorEvent(Error botError);
+
+        public event ScanEvent ScanStarted;
+        public event ScanEvent ScanFinished;
+        public event BotErrorEvent ErrorEvent;
+
         private List<Uri> urlsToScan;
 
         public async Task Start()
@@ -24,7 +37,7 @@ namespace RetrosScalper
             
             while (true)
             {
-                Console.WriteLine("Getting page data...");
+                ScanStarted?.Invoke();
                 foreach (var url in urlsToScan)
                 {
                     bool cardInStock = false;
@@ -49,7 +62,7 @@ namespace RetrosScalper
 
                             break;
                         default:
-                            Console.WriteLine("Invalid URL");
+                            ErrorEvent?.Invoke(Error.URL_NOT_SUPPORTED);
                             return;
                     }
 
@@ -74,7 +87,7 @@ namespace RetrosScalper
                     Thread.Sleep(250);
                 }
 
-                Console.WriteLine("Finished getting page data...\n");
+                ScanFinished?.Invoke();
                 Thread.Sleep(2000);
             }
         }
@@ -87,7 +100,7 @@ namespace RetrosScalper
             if (!File.Exists(URL_FILE))
             {
                 File.Create(URL_FILE).Dispose();
-                Console.WriteLine(URL_FILE + " has been created. Input all your urls to scan there line by line.");
+                ErrorEvent?.Invoke(Error.FILE_NOT_CREATED);
 
                 return false;
             }
@@ -100,7 +113,6 @@ namespace RetrosScalper
                 while ((urlLine = sr.ReadLine()) != null)
                 {
                     urlsToScan.Add(new Uri(urlLine));
-                    Console.WriteLine(urlLine + '\n');
                 }
             }
 
