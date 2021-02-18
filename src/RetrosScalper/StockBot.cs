@@ -21,10 +21,12 @@ namespace RetrosScalper
 
         public delegate void ScanEvent();
         public delegate void BotErrorEvent(Error botError);
+        public delegate void ScanDataEvent(IList<IItem> itemsFound);
 
         public event ScanEvent ScanStarted;
         public event ScanEvent ScanFinished;
         public event BotErrorEvent ErrorEvent;
+        public event ScanDataEvent StockDataEvent;
 
         private List<Uri> urlsToScan;
 
@@ -66,24 +68,7 @@ namespace RetrosScalper
                             return;
                     }
 
-                    foreach (var i in items)
-                    {
-                        if (i.InStock)
-                        {
-                            Console.WriteLine("Name: " + i.Name);
-                            Console.WriteLine("Is in stock: " + i.InStock.ToString());
-                            Console.WriteLine("URL: " + i.URL);
-                            Console.WriteLine("Price: " + (i.Price == null ? "N/A" : "$" + i.Price.ToString()) + "\n");
-
-                            cardInStock = true;
-                        }
-                    }
-
-                    if (cardInStock)
-                    {
-                        Console.Beep();
-                    }
-
+                    StockDataEvent?.Invoke(items);
                     Thread.Sleep(250);
                 }
 
